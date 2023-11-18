@@ -143,7 +143,7 @@ class _SeabornPlotter(_Plotter):
             plotter = sns.categorical._BarPlotter(
                 x, y, hue, data, order, hue_order,
                 estimator=plot_params.get("estimator", np.mean),
-                ci=plot_params.get("ci", 95),
+                errorbar=("ci", plot_params.get("ci", 95)),
                 n_boot=plot_params.get("nboot", 1000),
                 units=plot_params.get("units"),
                 orient=plot_params.get("orient"),
