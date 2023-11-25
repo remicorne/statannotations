@@ -50,19 +50,6 @@ class Test(unittest.TestCase):
                        (("a", "blue"), ("b", "blue"))],
                 **self.plotting)
 
-    def test_orient_horizontal(self):
-        plotting = {**self.plotting, 'orient': 'h',
-                    'x': 'y', 'y': 'x', 'dodge': True}
-        ax = sns.stripplot(**plotting)
-        self.annotator = Annotator(
-            ax, plot="stripplot",
-            pairs=[(("a", "blue"), ("a", "red")),
-                   (("b", "blue"), ("b", "red")),
-                   (("a", "blue"), ("b", "blue"))],
-            **plotting)
-        self.annotator.configure(test="Mann-Whitney")
-        self.annotator.apply_and_annotate()
-
     def test_fixed_offset(self):
         ax = sns.barplot(**self.plotting)
         self.annotator = Annotator(

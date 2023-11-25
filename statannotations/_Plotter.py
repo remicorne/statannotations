@@ -13,7 +13,7 @@ from statannotations.utils import check_not_none, check_order_in_data, \
     check_pairs_in_data, render_collection, check_is_in, remove_null
 
 IMPLEMENTED_PLOTTERS = {
-    'seaborn': ['barplot', 'boxplot', 'stripplot', 'swarmplot', 'violinplot']
+    'seaborn': ['barplot', 'boxplot', 'violinplot']
 }
 
 
@@ -126,19 +126,6 @@ class _SeabornPlotter(_Plotter):
                 linewidth=plot_params.get("linewidth"),
                 saturation=.75, color=None, palette=None)
 
-        elif plot == 'swarmplot':
-            plotter = sns.categorical._SwarmPlotter(
-                x, y, hue, data, order, hue_order,
-                orient=plot_params.get("orient"),
-                dodge=True, color=None, palette=None)
-
-        elif plot == 'stripplot':
-            plotter = sns.categorical._StripPlotter(
-                x, y, hue, data, order, hue_order,
-                jitter=plot_params.get("jitter", True),
-                orient=plot_params.get("orient"),
-                dodge=True, color=None, palette=None)
-
         elif plot == 'barplot':
             plotter = sns.categorical._BarPlotter(
                 x, y, hue, data, order, hue_order,
@@ -151,7 +138,7 @@ class _SeabornPlotter(_Plotter):
                 color=None, palette=None, saturation=.75,
                 errcolor=".26", errwidth=plot_params.get("errwidth"),
                 capsize=None,
-                dodge=True)
+                dodge=True, width=plot_params.get("width", 0.8))
 
         elif plot == "violinplot":
             plotter = sns.categorical._ViolinPlotter(
@@ -396,13 +383,6 @@ class _SeabornPlotter(_Plotter):
     def fix_and_warn(dodge, hue, plot):
         if dodge is False and hue is not None:
             raise ValueError("`dodge` cannot be False in statannotations.")
-
-        if plot in ("swarmplot", 'stripplot') and hue is not None:
-            if dodge is None:
-                warnings.warn(
-                    "Implicitly setting dodge to True as it is necessary in "
-                    "statannotations. It must have been True for the seaborn "
-                    "call to yield consistent results when using `hue`.")
 
     def get_value_lim(self):
         if self.orient == 'v':
